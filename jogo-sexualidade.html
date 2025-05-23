@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Explorando a Diversidade</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #f0f4f8;
+      margin: 0;
+      padding: 20px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+    }
+    #game {
+      background: #fff;
+      border-radius: 10px;
+      padding: 30px;
+      max-width: 600px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    }
+    h1, h2 {
+      text-align: center;
+    }
+    .question {
+      margin: 20px 0;
+    }
+    .choices button {
+      display: block;
+      width: 100%;
+      margin: 5px 0;
+      padding: 10px;
+      font-size: 16px;
+      cursor: pointer;
+    }
+    .feedback {
+      margin-top: 10px;
+      font-weight: bold;
+    }
+    .next-btn {
+      margin-top: 20px;
+      display: block;
+      padding: 10px;
+      font-size: 16px;
+      background: #007bff;
+      color: white;
+      border: none;
+      cursor: pointer;
+      width: 100%;
+    }
+  </style>
+</head>
+<body>
+  <div id="game">
+    <h1>Explorando a Diversidade</h1>
+    <div id="content">
+      <h2 id="question-title"></h2>
+      <div class="question" id="question-text"></div>
+      <div class="choices" id="choices"></div>
+      <div class="feedback" id="feedback"></div>
+      <button class="next-btn" id="next" onclick="nextQuestion()">Próxima</button>
+    </div>
+  </div>
+
+  <script>
+    const questions = [
+      {
+        title: "História 1",
+        text: "Joana se sente atraída por pessoas independentemente do gênero.",
+        choices: ["Homossexual", "Pansexual", "Assexual", "Heterossexual"],
+        correct: 1,
+        explanation: "Pansexualidade é atração por pessoas independentemente do gênero."
+      },
+      {
+        title: "História 2",
+        text: "Carlos sente atração apenas por pessoas do mesmo sexo.",
+        choices: ["Heterossexual", "Bissexual", "Homossexual", "Pansexual"],
+        correct: 2,
+        explanation: "Homossexualidade é a atração por pessoas do mesmo sexo."
+      },
+      {
+        title: "História 3",
+        text: "Alex não sente atração sexual por ninguém, mas sente forte conexão emocional.",
+        choices: ["Assexual", "Bissexual", "Demissexual", "Pansexual"],
+        correct: 0,
+        explanation: "Assexualidade é a ausência de atração sexual."
+      },
+      {
+        title: "História 4",
+        text: "Maria sente atração por pessoas de mais de um gênero.",
+        choices: ["Bissexual", "Assexual", "Heterossexual", "Demissexual"],
+        correct: 0,
+        explanation: "Bissexualidade é a atração por mais de um gênero."
+      }
+    ];
+
+    let current = 0;
+
+    function loadQuestion() {
+      const q = questions[current];
+      document.getElementById("question-title").innerText = q.title;
+      document.getElementById("question-text").innerText = q.text;
+      const choicesDiv = document.getElementById("choices");
+      const feedback = document.getElementById("feedback");
+      choicesDiv.innerHTML = "";
+      feedback.innerText = "";
+
+      q.choices.forEach((choice, index) => {
+        const btn = document.createElement("button");
+        btn.innerText = choice;
+        btn.onclick = () => checkAnswer(index);
+        choicesDiv.appendChild(btn);
+      });
+    }
+
+    function checkAnswer(selected) {
+      const q = questions[current];
+      const feedback = document.getElementById("feedback");
+      if (selected === q.correct) {
+        feedback.innerText = "✔️ Correto! " + q.explanation;
+        feedback.style.color = "green";
+      } else {
+        feedback.innerText = "❌ Incorreto. " + q.explanation;
+        feedback.style.color = "red";
+      }
+    }
+
+    function nextQuestion() {
+      current++;
+      if (current < questions.length) {
+        loadQuestion();
+      } else {
+        document.getElementById("content").innerHTML = "<h2>Parabéns por completar o jogo! 🎉</h2><p>Você aprendeu mais sobre a diversidade sexual com respeito e empatia.</p>";
+      }
+    }
+
+    loadQuestion();
+  </script>
+</body>
+</html>
